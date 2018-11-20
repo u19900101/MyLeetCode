@@ -1,0 +1,65 @@
+给定 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。
+     在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。
+     找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+
+     说明：你不能倾斜容器，且 n 的值至少为 2。
+   
+   solution1：自己的解答
+   思路：设定最高水位，然后依次往下降，找到对应该水位的最大坐标值和最小坐标值，得到对应的蓄水量，
+   遍历所有的水位，找到最大的蓄水量
+    static public int maxArea(int[] height) {
+        int [][]maxArea=new int[height.length][2];
+        for(int i=0;i<height.length;i++){
+           maxArea[i][0]=i;
+            maxArea[i][1]=height[i];
+        }
+
+        //从大到小排序
+        for(int i=0;i<height.length-1;i++){
+            for(int j=i;j<height.length-1;j++){
+                if(maxArea[i][1]<maxArea[j+1][1]){
+                    int temp=maxArea[i][1];
+                    maxArea[i][1]=maxArea[j+1][1];
+                    maxArea[j+1][1]=temp;
+
+                    temp=maxArea[i][0];
+                    maxArea[i][0]=maxArea[j+1][0];
+                    maxArea[j+1][0]=temp;
+                }
+            }
+        }
+
+        int res=0,i=0,max=maxArea[0][0],min=maxArea[0][0];
+        while (i<height.length-1) {
+            int high=maxArea[i+1][1];
+            for(int j=0;j<=i+1;j++){
+                max=maxArea[j][0]>max?maxArea[j][0]:max;
+                min=maxArea[j][0]<min?maxArea[j][0]:min;
+            }
+
+            int area=high*(max-min);
+            res=res>area?res:area;
+           i++;
+        }
+        return res;
+    }
+
+solution2： 官方解答
+    /**
+     最初我们考虑由最外围两条线段构成的区域。现在，为了使面积最大化，
+     我们需要考虑更长的两条线段之间的区域。如果我们试图将指向较长线段的指针向内侧移动，
+     矩形区域的面积将受限于较短的线段而不会获得任何增加。
+     但是，在同样的条件下，移动指向较短线段的指针尽管造成了矩形宽度的减小，但却可能会有助于面积的增大。
+     因为移动较短线段的指针会得到一条相对较长的线段，这可以克服由宽度减小而引起的面积减小。
+     */
+    static public int maxArea_LeetCode(int[] height) {
+        int maxarea = 0, l = 0, r = height.length - 1;
+        while (l < r) {
+            maxarea = Math.max(maxarea, Math.min(height[l], height[r]) * (r - l));
+            if (height[l] < height[r])
+                l++;
+            else
+                r--;
+        }
+        return maxarea;
+    }
