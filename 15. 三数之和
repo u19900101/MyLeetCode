@@ -1,0 +1,72 @@
+给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
+
+注意：答案中不可以包含重复的三元组。
+
+例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+
+满足要求的三元组集合为：
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+
+
+1.暴力法破解：
+思路：比较简单，将所有三个数的可能都拿出来进行测试，和为0则加入到集合中；
+public List<List<Integer>> threeSum_1(int[] nums) {
+         List<List<Integer>> lists = new ArrayList<>();
+         if(nums.length<3)
+             return lists;
+         for(int i=0;i<nums.length-2;i++){
+             for(int j=i+1;j<nums.length-1;j++){
+                 for(int k=j+1;k<nums.length;k++) {
+                     if (nums[i]+nums[j]+nums[k]==0) {
+                         List<Integer> tempList = new ArrayList<>();
+                         tempList.add(nums[i]);
+                         tempList.add(nums[j]);
+                         tempList.add(nums[k]);
+                         Collections.sort(tempList);
+                         if (!lists.contains(tempList))
+                             lists.add(tempList);
+                     }
+
+                 }
+             }
+         }
+         return lists;
+     }
+     
+     2.首先进行排序，然后将最小的数作为和，查找在右侧剩余的数组中有无相加为相反数的两个数。
+     顺序为，从余下的数两侧开始L和R，
+     如果nums[L]+nums[R]>-num[i],要使等式nums[L]+nums[R]=-num[i]成立，则需减小两者的和，则将R左移
+     （不能将L左移，因为L是从小的一侧过来的，L左侧的已经和现在的R进行运算过），即R--；
+     如果nums[L]+nums[R]<-num[i],要使等式nums[L]+nums[R]=-num[i]成立，则需增大两者的和，此时可以将L或者R右移，但是则将R左移，即R--；
+     如果L或者R有相同的则跳过只取一个（始终保持L<R）
+     这个方法比较机智！！！
+     public List<List<Integer>> threeSum(int[] nums) {
+         Arrays.sort(nums);
+         List<List<Integer>> ls = new ArrayList<>();
+
+         for (int i = 0; i < nums.length - 2; i++) {
+             if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {  // 跳过可能重复的答案
+                 int l = i + 1, r = nums.length - 1, sum = 0 - nums[i];
+                 while (l < r) {
+                     if (nums[l] + nums[r] == sum) {
+                         ls.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                         while (l < r && nums[l] == nums[l + 1]) l++;
+                         while (l < r && nums[r] == nums[r - 1]) r--;
+                         l++;
+                         r--;
+                     } else if (nums[l] + nums[r] < sum) {
+                         while (l < r && nums[l] == nums[l + 1]) l++;   // 跳过重复值
+                         l++;
+                     } else {
+                         while (l < r && nums[r] == nums[r - 1]) r--;
+                         r--;
+                     }
+                 }
+             }
+         }
+         return ls;
+     }
+     
