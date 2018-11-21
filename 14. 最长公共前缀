@@ -1,0 +1,34 @@
+/**
+     14. 最长公共前缀
+     编写一个函数来查找字符串数组中的最长公共前缀。
+
+     如果不存在公共前缀，返回空字符串 ""。
+     */
+     
+    解题思路：
+    A:找到最短的字符长度，公共字符串肯定小于这个长度
+    B：逐个的进行比较，如果有不相同的则返回false；
+    static public String longestCommonPrefix(String[] strs) {
+
+        if(strs.length==0)
+            return "";
+        if(strs.length==1)
+            return strs[0];
+        boolean flag=true;
+        int len=strs[0].length(),j=0;
+        for(String s:strs){
+            len=Math.min(len,s.length());
+        }
+
+        while (flag&&j<len){
+            for(int i=0;i<strs.length-1;i++){
+                if(strs[i].charAt(j)!=strs[i+1].charAt(j)){
+                    flag=false;
+                    j--;
+                    break;
+                }
+            }
+            j++;
+        }
+        return j>0?strs[0].substring(0,j):"";
+    }
