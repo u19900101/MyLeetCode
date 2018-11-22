@@ -1,0 +1,55 @@
+  给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+
+ 示例：
+ 给定一个链表: 1->2->3->4->5, 和 n = 2.当删除了倒数第二个节点后，链表变为 1->2->3->5.*/
+ 
+ solution 1：
+ 思路：得到链表长度，找到对应的倒数位置前一位，进行删除。
+
+    static  public ListNode removeNthFromEnd(ListNode head, int n) {
+        int i = 0;
+        int len = listNodeLen(head);
+        if(n>len){
+            return null;
+        }
+       if(n==len)
+          return head.next;
+        ListNode root=head;
+        while (i<len-n-1){
+            i++;
+            head=head.next;
+        }
+       
+        head.next=head.next.next;
+        return root;
+    }
+    private static int listNodeLen(ListNode head) {
+        if(head.next==null)
+            return 1;
+        int len=1;
+        while (head.next!=null){
+            len++;
+            head=head.next;
+        }
+
+        return len;
+    }
+solution 2：
+ 思路：用两个指针，两者之间的距离就是倒数的位置，当靠后的指针到 链表结尾时，则此时前面的指针next正好指向要删除的节点。
+ public ListNode removeNthFromEnd_official(ListNode head, int n) {
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode first = dummy;
+        ListNode second = dummy;
+        // Advances first pointer so that the gap between first and second is n nodes apart
+        for (int i = 1; i <= n + 1; i++) {
+            first = first.next;
+        }
+        // Move first to the end, maintaining the gap
+        while (first != null) {
+            first = first.next;
+            second = second.next;
+        }
+        second.next = second.next.next;
+        return dummy.next;
+    }
