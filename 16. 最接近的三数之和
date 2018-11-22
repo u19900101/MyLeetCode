@@ -1,0 +1,71 @@
+solution 1：
+思路：利用之前的求和函数作为辅助，从target开始递增递减进不断地去查找有无等于target--或target++的值，直到lists不为空，则说明已经找到匹配的和值，输出。
+public int threeSumClosest(int[] nums, int target) {
+        List<List<Integer>>lists=new ArrayList<>();
+        int i=0;
+        while (true){
+            lists=threeSumClosest_assit(nums,target+i);
+            if(lists.size()!=0)
+                return target+i;
+            lists=threeSumClosest_assit(nums,target-i);
+            if(lists.size()!=0)
+                return target-i;
+            i++;
+        }
+
+    }
+ public List<List<Integer>> threeSumClosest_assit(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> ls = new ArrayList<>();
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {  // 跳过可能重复的答案
+                int l = i + 1, r = nums.length - 1, sum = target - nums[i];
+                while (l < r) {
+                    if (nums[l] + nums[r] == sum) {
+                        ls.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                        return ls;
+                    } else if (nums[l] + nums[r] < sum) {
+                        while (l < r && nums[l] == nums[l + 1]) l++;   // 跳过重复值
+                        l++;
+                    } else {
+                        while (l < r && nums[r] == nums[r - 1]) r--;
+                        r--;
+                    }
+                }
+            }
+        }
+        return ls;
+    }
+    
+    
+solution 2：
+思路：   将排序好的数组三个不断相加与目标进行比较，直到找到差值最小的三个数
+public int threeSumClosest_others(int[] nums, int target) {
+        // 排序
+        Arrays.sort(nums);
+        int closestNum = nums[0] + nums[1] + nums[2];
+        for (int i = 0; i < nums.length - 2; i++) {
+            int l = i + 1, r = nums.length - 1;
+            while (l < r){
+                int threeSum = nums[l] + nums[r] + nums[i];
+                if (Math.abs(threeSum - target) < Math.abs(closestNum - target)) {
+                    closestNum = threeSum;
+                }
+                if (threeSum > target) {
+                    while (l < r && nums[r] == nums[r - 1]) r--;
+                    r--;
+                } else if (threeSum < target) {
+                    while (l < r && nums[l] == nums[l + 1]) l++;
+                    l++;
+                } else {
+                    // 如果已经等于target的话, 肯定是最接近的
+                    return target;
+                }
+
+            }
+
+        }
+
+        return closestNum;
+    }
