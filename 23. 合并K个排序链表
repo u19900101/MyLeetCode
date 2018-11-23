@@ -1,0 +1,86 @@
+
+    /**
+     合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+     示例:
+     输入:
+     [1->4->5,
+     1->3->4,
+     2->6]
+     输出: 1->1->2->3->4->4->5->6
+     */
+思路：
+利用之前的例子，合并两个有序链表；将原始序列相邻的两个链表合并，得新的新的list，不断缩减即可。
+难点：递归的过程并不复杂，但是很费时间！！！
+
+
+
+public ListNode My_mergeKLists(ListNode[] lists) {
+        if(lists.length==0){
+            return null;
+        }
+        ListNode res=new ListNode(0);
+        My_mergeKLists_digui(lists,res);
+        return res.next;
+    }
+
+public void My_mergeKLists_digui(ListNode[] list,ListNode res) {
+        ListNode []temp=My_mergeKLists_div2(list);
+        if(temp.length>1){
+            My_mergeKLists_digui(temp, res);
+        }else {
+            res.next=temp[0];//检索合并到只有一个数组时，取值返回
+        }
+
+    }
+ public ListNode[] My_mergeKLists_div2(ListNode[] lists) {
+        int size=lists.length;
+        if(lists.length%2!=0){
+            size++;
+        }
+        ListNode []listkk=new ListNode[size/2];
+        for(int i=0,j=0;i<listkk.length-1;i++,j++){
+            listkk[i]=mergeTwoLists(lists[j], lists[j + 1]);
+            j++;
+        }
+
+        if(lists.length%2!=0){
+            listkk[size/2-1]=lists[size-2];
+        }else {
+            listkk[size/2-1]=mergeTwoLists(lists[size-2], lists[size-1]);
+        }
+
+        size=listkk.length;
+        if(listkk.length%2!=0){
+            size++;
+        }
+        return listkk;
+    }
+    
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+
+        if(l1==null&&l2==null)
+            return null;
+
+        ListNode dummy=new ListNode(0);
+        ListNode res=dummy;
+
+        while (l1!=null&&l2!=null){
+            if(l1.val<l2.val){
+                dummy.next=new ListNode(l1.val);
+                dummy=dummy.next;
+                l1=l1.next;
+            }else {
+                dummy.next=new ListNode(l2.val);
+                dummy=dummy.next;
+                l2=l2.next;
+            }
+         }
+
+      if (l1!=null){
+            dummy.next=l1;
+        }else {
+            dummy.next=l2;
+        }
+
+        return res.next;
+    }
