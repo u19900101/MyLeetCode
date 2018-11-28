@@ -1,0 +1,34 @@
+/*  解题思路：
+按照顺时针的方向，用4个for循环来依次输出数据。*/
+
+    public static List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> res = new ArrayList<>();
+        if(matrix == null || matrix.length ==0){
+            return res;
+        }
+        int numi = matrix.length;
+        int numj = matrix[0].length;
+        //环数
+        int loop = numi>numj?(numj+1)/2:(numi+1)/2;
+
+        for(int i=0;i<loop;i++,numi-=2,numj-=2){
+
+            for(int col = i;col<i+numj;col++){
+                res.add(matrix[i][col]);
+            }
+            for(int row = i+1;row<i+numi;row++){
+                res.add(matrix[row][i+numj-1]);
+            }
+            //最后一环为一行或一列，则在上面两步之后已经全部输出，直接退出即可
+            if(numi ==1||numj==1)
+                break;
+
+            for(int col = i+numj-2;col>=i;col--){
+                res.add(matrix[i+numi-1][col]);
+            }
+            for(int row = i+numi -2;row>i;row--){
+                res.add(matrix[row][i]);
+            }
+        }
+        return res;
+}
