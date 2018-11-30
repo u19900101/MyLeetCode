@@ -1,0 +1,28 @@
+ 给定 pushed 和 popped 两个序列，只有当它们可能是在最初空栈上进行的推入 push 和弹出 pop 操作序列的结果时，返回 true；否则，返回 false 
+ 
+ public boolean validateStackSequences(int[] pushed, int[] popped) {
+       Stack<Integer> stack=new Stack<>();
+       if(popped.length!=pushed.length){
+           return false;
+       }
+
+       for(int i=0,j=0;j<pushed.length;i++){
+           if(stack.size()>0){
+               while (stack.peek()==popped[j]){
+                   stack.pop();
+                   j++;
+                   if(stack.size()==0){
+                       break;
+                   }
+               }
+           }
+           if(i==pushed.length){
+              break;
+           }
+
+           if(i<pushed.length){
+               stack.push(pushed[i]);
+           }
+       }
+       return stack.size()==0;
+   }
