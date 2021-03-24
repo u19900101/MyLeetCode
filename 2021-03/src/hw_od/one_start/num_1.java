@@ -14,26 +14,32 @@ public class num_1 {
 //     out  1   0  0
     @Test
     public void T_1(){
-        String s = "0 1 0";
+        String s = "0 0 1 0 0 0 0";
         String[] s1 = s.split(" ");
         int totalNumatLeast = 0;
         for (int i = 0; i < s1.length; i++) {
             if(Integer.valueOf(s1[i]) == 1){
-                totalNumatLeast +=7;
+                totalNumatLeast +=1;
             }
         }
         int numOfPerson = s1.length;
         // int numOfPerson = 3;
         int []times = new int[numOfPerson];
-
-        for (int i = 1; i <= totalNumatLeast; i++) {
+        int i = 1;
+        while (totalNumatLeast>0){
             int isGuo = isGuo(i);
             times[(i-1)%numOfPerson] += isGuo;
             System.out.print(i%numOfPerson + " -- "+isGuo+"\t");
             if(i%numOfPerson == 0){
                 System.out.println();
             }
+            i++;
+            if(isGuo == 1){
+                totalNumatLeast--;
+            }
+
         }
+
         System.out.println(Arrays.toString(times));
 
         String res = "";
