@@ -10,16 +10,16 @@ import java.util.Arrays;
  */
 public class n_1 {
     //【没有回文串】 字典序 不包含回文串  下一个字串   3h
+    /**
+     *
+     *
+     * */
     @Test
     public void T_num_1(){
     //    in  cba
     //    out no
-        String in = "dabca"; // bac
-        // String in2 = "abcdb";
-        // in = exchangeStr(in,0,1);
-        // System.out.println(in.compareTo(in2));
-
-
+    //     String in = "dabca"; // bac
+        String in = "cba"; // bac
         int len = in.length();
         String res = "NO";
         for (int i = 1; i < in.length(); i++) {
@@ -114,15 +114,5 @@ public class n_1 {
         }
         return null;
     }
-
-
-    private String exchangeStr(String in, int i, int j) {
-        char[] chars = in.toCharArray();
-        char temp = in.charAt(i);
-        chars[i] = chars[j];
-        chars[j] = temp;
-        return String.valueOf(chars);
-    }
-
 
 }
