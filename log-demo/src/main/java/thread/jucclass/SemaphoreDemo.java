@@ -1,4 +1,4 @@
-package thread.juc;
+package thread.jucclass;
 
 import java.util.Random;
 import java.util.concurrent.Semaphore;
