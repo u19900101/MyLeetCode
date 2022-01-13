@@ -1,4 +1,4 @@
-package class02;
+package zuo.class02;
 
 import org.junit.Test;
 

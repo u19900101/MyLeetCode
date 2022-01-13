@@ -1,63 +1,26 @@
-package class02;
-
-import org.junit.Test;
+package zuo.class01;
 
 import java.util.Arrays;
 
-public class Code03_HeapSort {
+public class Code02_BubbleSort {
 
-	@Test
-	public void T_k(){
-		int result = (int)(Math.log(8) / Math.log(2));
-		System.out.println(result);
-	}
-	public static void heapSort(int[] arr) {
+	public static void bubbleSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		/*获取倒数第二层的最后一个下标*/
-		int index = (int)(Math.log(arr.length) / Math.log(2));
-		index = (int) (Math.pow(2,index) - 2);
-		for (int i = index; i > 0 ; i--) {
-			heapify(arr, i, arr.length);
-		}
-		/*建立大根堆*/
-		/*for (int i = 0; i < arr.length; i++) {// O(N)
-			heapInsert(arr, i); // O(logN)
-		}*/
-		int size = arr.length;
-		swap(arr, 0, --size);
-		while (size > 0) {  // O(N)
-			heapify(arr, 0, size); // O(logN)
-			swap(arr, 0, --size); //O(1)
-		}
-	}
-
-	public static void heapInsert(int[] arr, int index) {
-		while (arr[index] > arr[(index - 1) / 2]) {
-			swap(arr, index, (index - 1) /2);
-			index = (index - 1)/2 ;
-		}
-	}
-
-	public static void heapify(int[] arr, int index, int size) {
-		int left = index * 2 + 1;
-		while (left < size) {
-			int largest = left + 1 < size && arr[left + 1] > arr[left] ? left + 1 : left;
-			largest = arr[largest] > arr[index] ? largest : index;
-			if (largest == index) {
-				break;
+		for (int e = arr.length - 1; e > 0; e--) {
+			for (int i = 0; i < e; i++) {
+				if (arr[i] > arr[i + 1]) {
+					swap(arr, i, i + 1);
+				}
 			}
-			swap(arr, largest, index);
-			index = largest;
-			left = index * 2 + 1;
 		}
 	}
 
 	public static void swap(int[] arr, int i, int j) {
-		int tmp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = tmp;
+		arr[i] = arr[i] ^ arr[j];
+		arr[j] = arr[i] ^ arr[j];
+		arr[i] = arr[i] ^ arr[j];
 	}
 
 	// for test
@@ -125,7 +88,7 @@ public class Code03_HeapSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			heapSort(arr1);
+			bubbleSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
@@ -136,7 +99,7 @@ public class Code03_HeapSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		heapSort(arr);
+		bubbleSort(arr);
 		printArray(arr);
 	}
 

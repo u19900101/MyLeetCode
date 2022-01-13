@@ -1,20 +1,39 @@
-package class01;
+package zuo.class02;
 
 import java.util.Arrays;
 
-public class Code01_SelectionSort {
+public class Code06_QuickSort {
 
-	public static void selectionSort(int[] arr) {
+	public static void quickSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		for (int i = 0; i < arr.length - 1; i++) {
-			int minIndex = i;
-			for (int j = i + 1; j < arr.length; j++) {
-				minIndex = arr[j] < arr[minIndex] ? j : minIndex;
-			}
-			swap(arr, i, minIndex);
+		quickSort(arr, 0, arr.length - 1);
+	}
+
+	public static void quickSort(int[] arr, int l, int r) {
+		if (l < r) {
+			swap(arr, l + (int) (Math.random() * (r - l + 1)), r);
+			int[] p = partition(arr, l, r);
+			quickSort(arr, l, p[0] - 1);
+			quickSort(arr, p[1] + 1, r);
 		}
+	}
+
+	public static int[] partition(int[] arr, int l, int r) {
+		int less = l - 1;
+		int more = r;
+		while (l < more) {
+			if (arr[l] < arr[r]) {
+				swap(arr, ++less, l++);
+			} else if (arr[l] > arr[r]) {
+				swap(arr, --more, l);
+			} else {
+				l++;
+			}
+		}
+		swap(arr, more, r);
+		return new int[] { less + 1, more };
 	}
 
 	public static void swap(int[] arr, int i, int j) {
@@ -88,7 +107,7 @@ public class Code01_SelectionSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			selectionSort(arr1);
+			quickSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
@@ -101,8 +120,9 @@ public class Code01_SelectionSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		selectionSort(arr);
+		quickSort(arr);
 		printArray(arr);
+
 	}
 
 }

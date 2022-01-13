@@ -1,4 +1,4 @@
-package class02;
+package zuo.class02;
 
 public class Code05_NetherlandsFlag {
 

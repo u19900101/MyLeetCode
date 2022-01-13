@@ -1,4 +1,4 @@
-package class01;
+package zuo.class01;
 
 public class Code09_FindOneLessValueIndex {
 
