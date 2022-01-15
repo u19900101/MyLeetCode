@@ -46,13 +46,13 @@ public class _035_搜索插入位置 {
     public static int searchInsert(int[] nums, int target) {
 
         /*判断目标值在开头还是结尾*/
-       /* if (target == nums[0] || target == nums[nums.length - 1]) {
+        if (target == nums[0] || target == nums[nums.length - 1]) {
             return target == nums[0] ? 0 : nums.length - 1;
         }
 
         if (target < nums[0] || target > nums[nums.length - 1]) {
             return target < nums[0] ? 0 : nums.length;
-        }*/
+        }
 
         int L = 0;
         int R = nums.length - 1;
