@@ -1,4 +1,4 @@
-package zuo.leetcode;
+package zuo.leetcode._01_binary_search;
 
 /**
  * @author pppppp
