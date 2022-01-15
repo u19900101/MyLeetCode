@@ -17,11 +17,27 @@ package zuo.leetcode;
  */
 public class _367_有效的完全平方数 {
     public static void main(String[] args) {
-        int[] nums = {16, 14,5,1};
-        boolean[] res = {true, false,false,true};
-        for (int i = 3; i < nums.length; i++) {
-            System.out.println(isPerfectSquare(nums[i])== res[i]);
+        int[] nums = {16, 14,5,1,195};
+        boolean[] res = {true, false,false,true,false};
+        for (int i = 0; i < nums.length; i++) {
+            System.out.println(isPerfectSquare2(nums[i])== res[i]);
         }
+    }
+
+    public static boolean isPerfectSquare2(int num) {
+        if(num == 0 || num == 1){
+            return true;
+        }
+        int x0 = num,x1;
+        while (true){
+            x1 = (x0 + num/x0)>>1;
+            /*当迭代的x1 已经不再减小时停止*/
+            if(x1 >= x0 ){
+                break;
+            }
+            x0 = x1;
+        }
+        return num  == (long) x1 * x1;
     }
 
     public static boolean isPerfectSquare(int num) {
