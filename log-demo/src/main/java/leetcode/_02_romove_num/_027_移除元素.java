@@ -1,4 +1,4 @@
-package zuo.leetcode._02_romove_num;
+package leetcode._02_romove_num;
 
 /**
  * @author pppppp
@@ -37,7 +37,7 @@ public class _027_移除元素 {
     }
 
     public static int removeElement2(int[] nums, int val) {
-
+        /*left始终表示符合条件的元素的个数*/
         int left = 0;
         int right = nums.length-1;
         while (left <= right) {
