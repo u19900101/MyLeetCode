@@ -1,8 +1,4 @@
-package leetcode._02_romove_num;
-
-import org.junit.Test;
-
-import java.util.Arrays;
+package leetcode._01_数组._02_romove_num;
 
 /**
  * @author pppppp

@@ -1,4 +1,4 @@
-package leetcode._01_binary_search;
+package leetcode._01_数组._01_binary_search;
 
 /**
  * @author pppppp

@@ -1,4 +1,4 @@
-package leetcode.dynic;
+package leetcode.od;
 
 import org.junit.Test;
 

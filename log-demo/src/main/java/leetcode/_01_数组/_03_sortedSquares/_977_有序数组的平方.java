@@ -1,8 +1,6 @@
-package leetcode._03_sortedSquares;
+package leetcode._01_数组._03_sortedSquares;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * @author pppppp

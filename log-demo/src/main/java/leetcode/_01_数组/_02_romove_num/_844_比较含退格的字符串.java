@@ -1,4 +1,4 @@
-package leetcode._02_romove_num;
+package leetcode._01_数组._02_romove_num;
 
 /**
  * @author pppppp
