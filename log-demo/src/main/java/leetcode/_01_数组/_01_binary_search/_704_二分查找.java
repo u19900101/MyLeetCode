@@ -13,30 +13,10 @@ public class _704_二分查找 {
         // int[] nums = {2, 5};
         // int target = 7;
         int target = 122;
-        int search = search4(nums, target);
+        int search = search3(nums, target);
         System.out.println(search);
     }
 
-    public static int search4(int[] nums, int target) {
-        if (nums[0] == target) {
-            return 0;
-        } else if (nums[nums.length - 1] == target) {
-            return nums.length - 1;
-        }
-        int L = 0;
-        int R = nums.length;
-        while (L < R) {
-            int mid = L + ((R - L) >> 1);
-            if (nums[mid] == target) {
-                return mid;
-            } else if (nums[mid] > target) {
-                R = mid;
-            } else {
-                L = mid + 1;//当L + 1 = R 时，L退化为R
-            }
-        }
-        return -1;
-    }
     public static int search3(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1; // 定义target在左闭右闭的区间里，[left, right]

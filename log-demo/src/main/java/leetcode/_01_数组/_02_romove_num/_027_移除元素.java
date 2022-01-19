@@ -43,9 +43,7 @@ public class _027_移除元素 {
         while (left <= right) {
             /*相等时 交换右边界到左边界 有边界-- 左边界不动 只有当左边界不是目标是才移动*/
             if (nums[left] == val) {
-                if(nums[left] != nums[right]){
-                    nums[left] = nums[right];
-                }
+                nums[left] = nums[right];
                 right--;
             } else {
                 left++;
