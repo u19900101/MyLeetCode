@@ -49,22 +49,25 @@ public class _239_滑动窗口最大值 {
         // int[] res = {3, 3, 5, 5, 6, 7};
         // int[] nums = {1,-1};
         // int[] res = {1,-1};
-        int[] nums = {1, 3, 1, 2, 0, 5};
-        int[] res = {3, 3, 2, 5};
-        int[] maxSlidingWindow = maxSlidingWindow4(nums, 3);
+        // int[] nums = {1, 3, 1, 2, 0, 5};
+        // int[] res = {3, 3, 2, 5};
+        int[] nums = {2,4,1,1};
+        int[] res = {4,4,1};
+        int[] maxSlidingWindow = maxSlidingWindow3(nums, 2);
         for (int i = 0; i < maxSlidingWindow.length; i++) {
             System.out.println(res[i] == maxSlidingWindow[i]);
         }
     }
 
     /*官方题解 使用优先队列*/
-    public int[] maxSlidingWindow3(int[] nums, int k) {
+    public static int[] maxSlidingWindow3(int[] nums, int k) {
         int n = nums.length;
         PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
             @Override
             public int compare(int[] pair1, int[] pair2) {
                 /*逆序 数字相同时 index大的排在前面*/
-                return pair1[0] != pair2[0] ? pair2[0] - pair1[0] : pair2[1] - pair1[1];
+                // return pair1[0] != pair2[0] ? pair2[0] - pair1[0] : pair2[1] - pair1[1];
+                return pair2[0] - pair1[0];
             }
         });
         for (int i = 0; i < k; ++i) {
@@ -74,6 +77,7 @@ public class _239_滑动窗口最大值 {
         ans[0] = pq.peek()[0];
         for (int i = k; i < n; ++i) {
             pq.offer(new int[]{nums[i], i});
+            /*保证队首元素还在当前滑框区域内 队首元素小标一定是大于 i-k*/
             while (pq.peek()[1] <= i - k) {
                 pq.poll();
             }
