@@ -84,12 +84,16 @@ public class _203_移除链表元素 {
         if(num.length == 0){
             return null;
         }
-        int index = num.length -1;
-        ListNode head = new ListNode(num[index--], null);
-        while (index >= 0 ){
-            head = new ListNode(num[index--],head);
+
+
+        ListNode head = new ListNode(0);
+        ListNode dummy = head;
+        int index = 0;
+        while (index < num.length ){
+            dummy.next = new ListNode(num[index++]);
+            dummy = dummy.next;
         }
-        return head;
+        return head.next;
     }
 
 
