@@ -28,7 +28,7 @@ public class _24_两两交换链表中的节点 {
         for (int i = 0; i < nums.length; i++) {
             /*构造链表*/
             ListNode head = arrayToLinkList(nums[i]);
-            ListNode node = swapPairs(head);
+            ListNode node = swapPairs2(head);
             /*遍历链表*/
             int j = 0;
             while (node != null) {
@@ -36,6 +36,26 @@ public class _24_两两交换链表中的节点 {
                 node = node.next;
             }
         }
+    }
+
+    /*改进版 添加虚拟头节点*/
+    public static ListNode swapPairs2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head == null ? null : head;
+        }
+        /*保留头节点*/
+        ListNode dummy = new ListNode(0,head);
+        ListNode l = dummy;
+        ListNode cur = dummy.next;
+        while (cur != null && cur.next != null) {
+            ListNode r = cur.next;
+            cur.next = cur.next.next;
+            r.next = cur;
+            l.next = r;
+            cur = cur.next;
+            l = l.next.next;
+        }
+        return dummy.next;
     }
 
     public static ListNode swapPairs(ListNode head) {
