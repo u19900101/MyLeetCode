@@ -43,73 +43,7 @@ public class _18_四数之和 {
         HashMap<Integer, Integer> map = new HashMap<>();
         List<List<Integer>> res = new ArrayList<>();
 
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                List<Integer> temp = Arrays.stream(nums).boxed().collect(Collectors.toList());
-                temp.remove(i);
-                List<List<Integer>> temp3 = threeSum(target-nums[i], temp.stream().mapToInt(j->j).toArray());
-                for (List<Integer> t3 : temp3) {
-                    t3.add(nums[i]);
-                }
-                res.addAll(temp3);
-            }else {
-                map.put(nums[i],map.getOrDefault(nums[i],0) + 1);
-            }
-        }
-        return res;
-    }
 
-    private static List<List<Integer>> threeSum(int target, int[] nums) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        List<List<Integer>> res = new ArrayList<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                List<Integer> temp = Arrays.stream(nums).boxed().collect(Collectors.toList());
-                temp.remove(i);
-                List<List<Integer>> temp3 = twoSum(target-nums[i], temp.stream().mapToInt(j->j).toArray());
-                for (List<Integer> t3 : temp3) {
-                    t3.add(nums[i]);
-                }
-                res.addAll(temp3);
-            }else {
-                map.put(nums[i],map.getOrDefault(nums[i],0) + 1);
-            }
-        }
-        return res;
-    }
-
-
-    private static List<List<Integer>> twoSum(int target, int[] nums) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        List<List<Integer>> res = new ArrayList<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                List<List<Integer>> temp3 = new ArrayList<>();
-                for (List<Integer> t3 : temp3) {
-                    t3.add(nums[i]);
-                }
-                res.addAll(temp3);
-            }else {
-                map.put(nums[i],map.getOrDefault(nums[i],0) + 1);
-            }
-        }
-        return res;
-    }
-
-
-    //优化之后的hash，放入数据时就直接进行判断
-    public static int[] twoSum(int[] nums, int target) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int[] res = new int[2];
-        for (int i = 0; i < nums.length; i++) {
-            if (map.get(target - nums[i]) != null) {
-                res[0] = i;
-                res[1] = map.get(target - nums[i]);
-                break;
-            } else {
-                map.put(nums[i], i);
-            }
-        }
         return res;
     }
 }
