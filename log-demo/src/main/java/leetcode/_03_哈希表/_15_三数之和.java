@@ -28,14 +28,14 @@ import java.util.*;
 public class _15_三数之和 {
 
     public static void main(String[] args) {
-        int[][] nums = {{},{-1, 0, 1, 2, -1, -4}};
-        int[][][] res = {{{-1, -1, 2}, {-1, 0, 1}},};
-        for (int i = 0; i < nums.length; i++) {
+        int[][] nums = {{-1, -1, -1, 2}, {-4, -2, 1, -5, -4, -4, 4, -2, 0, 4, 0, -2, 3, 1, -5, 0}, {-2, 0, 1, 1, 2}, {-1, 0, 1, 2, -1, -4}};
+        for (int i = 1; i < nums.length; i++) {
             List<List<Integer>> ints = threeSum2(nums[i]);
             System.out.println();
         }
     }
 
+    /*自认为的更优解*/
     public static List<List<Integer>> threeSum2(int[] nums) {
         /*1.排序 判断特殊情况*/
         /*2.固定最左侧的数*/
@@ -43,57 +43,95 @@ public class _15_三数之和 {
         /*4.右移*/
         List<List<Integer>> res = new ArrayList<>();
         Arrays.sort(nums);
-        if (nums.length <3 || nums[0] > 0 || nums[nums.length - 1] < 0) {
+        if (nums.length < 3 || nums[0] > 0 || nums[nums.length - 1] < 0) {
             return res;
         } else if (nums[0] == 0 && nums[nums.length - 1] == 0) {
             res.add(Arrays.asList(0, 0, 0));
             return res;
         }
-        /*值 和 是否有两个及以上相同的数*/
-        HashMap<Integer, Boolean> map = new HashMap<>();
-        HashSet<List<Integer>> set = new HashSet<>();
+        /*值 和 最右侧的index*/
+        HashMap<Integer, Integer> map = new HashMap<>();
+
         for (int i = 0; i < nums.length; i++) {
-            map.put(nums[i], map.containsKey(nums[i]) ? true : false);
+            map.put(nums[i], i);
         }
 
-        int l = 0, r = nums.length - 1;
+        int l = 0;
         while (l <= nums.length - 3) {
             /*固定l,在右侧进行查找*/
+            while (l > 0 && l <= nums.length - 3 && nums[l-1] == nums[l]){
+                l++;
+            }
             int m = l + 1;
-            while (m < r) {
-                boolean out = false;
-                while (m < r-1 && nums[m] == nums[m+1]){
-                    if (map.containsKey(-nums[m] - nums[l])){
-                        Integer []temp = {nums[l], nums[m], -nums[m] - nums[l]};
-                        Arrays.sort(temp);
-                        set.add(Arrays.asList(temp));
-                        out = true;
-                        break;
+            int r = nums.length - 1;
+            while (m < r && nums[m] == nums[m - 1] && !map.containsKey(-2 * nums[m])) {
+                m++;
+            }
+
+            while (m < r && nums[l] <= 0 && nums[m] + nums[l] <= 0) {
+                int t = -nums[m] - nums[l];
+                if (map.containsKey(t) && map.get(t) > m) {
+                    res.add(Arrays.asList(nums[l], nums[m], t));
+                    /*优化--找到目标之后，收缩下一个区域*/
+                    while (m + 1 <= r && nums[m] == nums[m + 1]) {
+                        m++; // 去重
+                    }
+                    while (m < r - 1 && nums[r] == nums[r - 1]) {
+                        r--; // 去重
                     }
                     m++;
+                    r--;
+                }else {
+                    m++;
                 }
-                /* -1 -1 2 这种情况*/
-                if(out){
-                    break;
-                }
-                int t = -nums[m] - nums[l];
-                if (map.containsKey(t)){
-                    Integer []temp = {nums[l], nums[m], -nums[m] - nums[l]};
-                    Arrays.sort(temp);
-                    if((t == nums[m] || t == nums[l]) ){
-                        if(map.get(t) == true){
-                            set.add(Arrays.asList(temp));
-                        }
-                    }else {
-                        set.add(Arrays.asList(temp));
-                    }
-                    break;
-                }
-                m++;
             }
             l++;
         }
-        return new ArrayList<>(set);
+        return res;
+    }
+
+    /*官方题解-- 排序+双指针*/
+    public static List<List<Integer>> threeSumS(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        Arrays.sort(nums);
+        if (nums.length < 3 || nums[0] > 0 || nums[nums.length - 1] < 0) {
+            return res;
+        } else if (nums[0] == 0 && nums[nums.length - 1] == 0) {
+            res.add(Arrays.asList(0, 0, 0));
+            return res;
+        }
+        int l = 0;
+        while (l <= nums.length - 3) {
+            int m = l + 1, r = nums.length - 1;
+            while (m < r && nums[l] + nums[m] <= 0) {
+                int sum = nums[l] + nums[m] + nums[r];
+                if (sum == 0) {
+                    res.add(Arrays.asList(nums[l], nums[m], nums[r]));
+                    /*优化--找到目标之后，收缩下一个区域*/
+                    while (m + 1 < r && nums[m] == nums[m + 1]) {
+                        m++; // 去重
+                    }
+                    while (m < r - 1 && nums[r] == nums[r - 1]) {
+                        r--; // 去重
+                    }
+                    m++;
+                    r--;
+                } else if (sum > 0) {
+                    r--;
+                } else {
+                    m++;
+                }
+                while (m < r && m - 1 > l && nums[m] == nums[m - 1]) {
+                    m++;
+                }
+            }
+            l++;
+            /*跳过已经检测过的值*/
+            while (l < r && nums[l] == nums[l - 1]) {
+                l++;
+            }
+        }
+        return res;
     }
 
     public static List<List<Integer>> threeSum(int[] nums) {
