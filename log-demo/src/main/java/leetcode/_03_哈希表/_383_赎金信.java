@@ -44,6 +44,7 @@ public class _383_赎金信 {
             return false;
         }
         HashMap<Character, Integer> rMap = getCharCountMap(ransomNote);
+        /*也可只求一个 另一个遍历，然后减去频数*/
         HashMap<Character, Integer> mMap = getCharCountMap(magazine);
         for (Character character : rMap.keySet()) {
             if(mMap.get(character) == null  || rMap.get(character) > mMap.get(character)){

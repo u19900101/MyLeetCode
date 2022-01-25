@@ -28,22 +28,31 @@ import java.util.stream.Collectors;
  */
 public class _18_四数之和 {
     public static void main(String[] args) {
-        int[][] nums = {{1, 0, -1, 0, -2, 2}, {2, 2, 2, 2, 2}};
-        int[] tag = {0, 8};
-        int[][][] res = {{{-2, -1, 1, 2}, {-2, 0, 0, 2}, {-1, 0, 0, 1}}, {{2, 2, 2, 2}}};
+        int[][][] nums = {{{1,2}, {-2,-1},{-1,2},{0,2}}};
+        int[] tag = {2, 8};
         for (int i = 0; i < nums.length; i++) {
-            List<List<Integer>> ints = fourSum(nums[i], tag[i]);
-            System.out.println();
+            System.out.println( fourSumCount(nums[i][0], nums[i][1],nums[i][2],nums[i][3])== tag[i]);
         }
     }
+    public static int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        HashMap<Integer, Integer> target =  getTarget(nums1,nums2);
+        HashMap<Integer, Integer> target2 =  getTarget(nums3,nums4);
+        int count = 0;
+        for (Integer t : target.keySet()) {
+            if(target2.containsKey(-t)){
+                count += target2.get(-t)*target.get(t);
+            }
+        }
+        return count;
+    }
 
-
-
-    public static List<List<Integer>> fourSum(int[] nums, int target) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        List<List<Integer>> res = new ArrayList<>();
-
-
-        return res;
+    private static HashMap<Integer, Integer> getTarget(int[] nums1, int[] nums2) {
+        HashMap<Integer, Integer> target = new HashMap<>();
+        for (int n1 : nums1) {
+            for (int n2 : nums2) {
+                target.put(n1+n2,target.getOrDefault(n1+n2,0)+1);
+            }
+        }
+        return target;
     }
 }
