@@ -2,6 +2,7 @@ package leetcode._05_二叉树;
 
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -40,22 +41,22 @@ public class _101_对称二叉树 {
 
     /*使用队列求解*/
     public boolean isSymmetric2(TreeNode root) {
-        if(root == null || root.left == null && root.right == null){
+        if (root == null || root.left == null && root.right == null) {
             return true;
         }
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root.left);
         queue.offer(root.right);
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             TreeNode left = queue.poll();
             TreeNode right = queue.poll();
-            if(left == null && right == null){
+            if (left == null && right == null) {
                 continue;
             }
-            if(left == null || right == null){
+            if (left == null || right == null) {
                 return false;
             }
-            if(left.val != right.val){
+            if (left.val != right.val) {
                 return false;
             }
             queue.offer(left.left);
@@ -64,6 +65,25 @@ public class _101_对称二叉树 {
             queue.offer(right.left);
         }
         return true;
+
+    }
+
+    /*斐波那契数列的第128项*/
+    public static void main(String[] args){
+        int n = 128;
+        System.out.println(fibfunc(n));
+    }
+    public static BigInteger fibfunc(int n) {
+        if (n == 1 || n == 2) {
+            return BigInteger.valueOf(1);
+        }
+        BigInteger f1 = BigInteger.valueOf(1), f2 = BigInteger.valueOf(1), f = BigInteger.valueOf(0);
+        for (int i = 3; i <= n; i++) {
+            f = f1.add(f2);
+            f2 = f1;
+            f1 = f;
+        }
+        return f;
     }
 
 }
