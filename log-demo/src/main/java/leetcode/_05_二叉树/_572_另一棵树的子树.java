@@ -15,11 +15,42 @@ public class _572_另一棵树的子树 {
 
     @Test
     public void T_1(){
-        // TreeNode p = new TreeNode(3, new TreeNode(4,new TreeNode(1),null), new TreeNode(5,new TreeNode(2),null));
-        // TreeNode q = new TreeNode(3, new TreeNode(1), new TreeNode(2));
-        TreeNode p = new TreeNode(3, new TreeNode(4,new TreeNode(1),new TreeNode(2,new TreeNode(0),null)), new TreeNode(5));
-        TreeNode q = new TreeNode(4, new TreeNode(1), new TreeNode(2));
-        System.out.println(isSubtree(p, q));
+        // TreeNode p = new TreeNode(3, new TreeNode(4,new TreeNode(1),new TreeNode(2)), new TreeNode(5));
+
+        // TreeNode p = new TreeNode(3, new TreeNode(4,new TreeNode(1),new TreeNode(2,new TreeNode(0),null)), new TreeNode(5));
+        // TreeNode q = new TreeNode(4, new TreeNode(1), new TreeNode(2));
+        TreeNode p = new TreeNode(3, new TreeNode(4,new TreeNode(1),null), new TreeNode(5,new TreeNode(2),null));
+        TreeNode q = new TreeNode(3, new TreeNode(1), new TreeNode(2));
+        System.out.println(isSubtree2(p, q));
+    }
+
+    public boolean isSubtree2(TreeNode root, TreeNode subRoot) {
+        if(root == null && subRoot == null){
+            return true;
+        }
+
+        if(root == null || subRoot == null){
+            return false;
+        }
+
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            TreeNode poll = queue.poll();
+            if(poll.val == subRoot.val){
+                if(isSubtree2(poll.left,subRoot.left) && isSubtree2(poll.right,subRoot.right)){
+                    return true;
+                }
+            }
+            if(poll.left != null){
+                queue.offer(poll.left);
+            }
+            if(poll.right != null){
+                queue.offer(poll.right);
+            }
+        }
+        return false;
     }
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
         if(root == null && subRoot == null){
@@ -71,6 +102,28 @@ public class _572_另一棵树的子树 {
             queue.offer(poll2.right);
         }
         return true;
+    }
+
+    /*官方题解*/
+    public boolean isSubtreeGF(TreeNode s, TreeNode t) {
+        return dfs(s, t);
+    }
+
+    public boolean dfs(TreeNode s, TreeNode t) {
+        if (s == null) {
+            return false;
+        }
+        return check(s, t) || dfs(s.left, t) || dfs(s.right, t);
+    }
+
+    public boolean check(TreeNode s, TreeNode t) {
+        if (s == null && t == null) {
+            return true;
+        }
+        if (s == null || t == null || s.val != t.val) {
+            return false;
+        }
+        return check(s.left, t.left) && check(s.right, t.right);
     }
 
 }
