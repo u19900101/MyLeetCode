@@ -23,10 +23,11 @@ public class _104_二叉树的最大深度 {
     public void T_() {
         Integer[] arr = {3, 9, 20, null, null, 15, 7};
         TreeNode treeNode = Util.arrToTree(arr);
-        int i = maxDepth(treeNode);
-
+        int i = maxDepth3(treeNode);
+        System.out.println(i);
     }
 
+    /*自己的题解*/
     public static int maxDepth(TreeNode root) {
         if (root == null) {
             return 0;
@@ -50,6 +51,38 @@ public class _104_二叉树的最大深度 {
             }
             maxDepth++;
             oldQueue.addAll(newQueue);
+        }
+        return maxDepth;
+    }
+
+    /*官方题解 递归 深度优先*/
+    public static int maxDepth2(TreeNode root) {
+        return root == null ? 0 : Math.max(maxDepth2(root.left) +1, maxDepth2(root.right) + 1);
+    }
+
+    /*官方题解 队列 广度优先 自己方法的一个优化*/
+    public static int maxDepth3(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        int maxDepth = 0;
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size > 0 ) {
+                TreeNode poll = queue.poll();
+
+                if (poll.left != null) {
+                    queue.offer(poll.left);
+                }
+                if (poll.right != null) {
+                    queue.offer(poll.right);
+                }
+                size--;
+            }
+            maxDepth++;
         }
         return maxDepth;
     }
