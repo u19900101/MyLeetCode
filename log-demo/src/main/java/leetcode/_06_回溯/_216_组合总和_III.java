@@ -3,6 +3,7 @@ package leetcode._06_回溯;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class _216_组合总和_III {
         dfs2(k, n, 9, ans);
         return ans;
     }
-
+    /*自己的题解  从大数开始 有一定的剪枝效果*/
     private void dfs2(int k, int n, int curIndex, List<List<Integer>> ans) {
 
         if (k == 0 && n == 0) {
@@ -115,31 +116,16 @@ public class _216_组合总和_III {
 
     private void dfs77(int k, int n, int curIndex, List<List<Integer>> ans) {
         if (temp.size() == k) {
+            if (sumArr(temp) == n) {
+                ans.add(new ArrayList<>(temp));
+            }
             return;
         }
 
         for (int i = curIndex; i <= Math.min(9,n - (k - temp.size()) + 1); i++) {
-            /*if (isStop(k, n, i)) {
-                if (temp.size() > 0) {
-                    temp.remove(temp.size() - 1);
-                }
-
-                continue;
-            }*/
             temp.add(i);
             dfs77(k, n, i + 1, ans);
-            int sumArr = sumArr(temp);
-            if (sumArr >= n) {
-                if (temp.size() == k && sumArr == n) {
-                    ans.add(new ArrayList<>(temp));
-                }
-                temp.remove(temp.size() - 1);
-                break;
-            }
-
-            if (temp.size() > 0) {
-                temp.remove(temp.size() - 1);
-            }
+            temp.remove(temp.size() - 1);
         }
     }
 
@@ -164,4 +150,40 @@ public class _216_组合总和_III {
         }
         return sum;
     }
+
+
+    /*代码随想*/
+    List<List<Integer>> result = new ArrayList<>();
+    LinkedList<Integer> path = new LinkedList<>();
+
+    public List<List<Integer>> combinationSum3KR(int k, int n) {
+        backTracking(n, k, 1, 0);
+        return result;
+    }
+
+    private void backTracking(int targetSum, int k, int startIndex, int sum) {
+        // 减枝
+        if (sum > targetSum) {
+            return;
+        }
+
+        if (path.size() == k) {
+            if (sum == targetSum) {
+                result.add(new ArrayList<>(path));
+            }
+            return;
+        }
+
+        // 减枝 9 - (k - path.size()) + 1
+        for (int i = startIndex; i <= 9 - (k - path.size()) + 1; i++) {
+            path.add(i);
+            sum += i;
+            backTracking(targetSum, k, i + 1, sum);
+            //回溯
+            path.removeLast();
+            //回溯
+            sum -= i;
+        }
+    }
+
 }
