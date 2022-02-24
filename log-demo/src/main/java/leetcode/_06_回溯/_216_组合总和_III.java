@@ -30,8 +30,9 @@ public class _216_组合总和_III {
 
     @Test
     public void T_() {
-        List<List<Integer>> lists = combinationSum3GF(3, 9);
+        // List<List<Integer>> lists = combinationSum3GF(3, 9);
         // List<List<Integer>> lists = combinationSum3GF(3, 7);
+        List<List<Integer>> lists = combinationSum3USE77(4, 24);
         System.out.println();
     }
 
@@ -69,16 +70,16 @@ public class _216_组合总和_III {
         return sum;
     }
 
-    /*官方题解--二进制（子集）枚举*/
+    /*官方题解--二进制（子集）枚举  可以完成但是太复杂了*/
     public List<List<Integer>> combinationSum3GF(int k, int n) {
         if (n > 45 || k > 9) {
             return ans;
         }
         for (int i = 0; i < (1 << 9); i++) {
-            if(i == 27){
+            if (i == 27) {
                 System.out.println();
             }
-            if(check(k,n,i)){
+            if (check(k, n, i)) {
                 ans.add(new ArrayList<>(temp));
             }
         }
@@ -88,18 +89,79 @@ public class _216_组合总和_III {
     private boolean check(int k, int n, int mask) {
         temp.clear();
         int sum = 0;
-        for (int j = 0; j <9; j++) {
-            if((mask &(1<<j)) != 0){
-                temp.add(j+1);
-                sum += j+1;
-                if(sum == n){
-                    return temp.size() == k && (mask>>(j + 1) == 0);
+        for (int j = 0; j < 9; j++) {
+            if ((mask & (1 << j)) != 0) {
+                temp.add(j + 1);
+                sum += j + 1;
+                if (sum == n) {
+                    return temp.size() == k && (mask >> (j + 1) == 0);
                 }
-                if(sum > n || temp.size() == k){
+                if (sum > n || temp.size() == k) {
                     return false;
                 }
             }
         }
         return false;
+    }
+
+    /*2.使用77中的组合*/
+    public List<List<Integer>> combinationSum3USE77(int k, int n) {
+        if (n > 45 || k > 9) {
+            return ans;
+        }
+        dfs77(k, n, 1, ans);
+        return ans;
+    }
+
+    private void dfs77(int k, int n, int curIndex, List<List<Integer>> ans) {
+        if (temp.size() == k) {
+            return;
+        }
+
+        for (int i = curIndex; i <= Math.min(9,n - (k - temp.size()) + 1); i++) {
+            /*if (isStop(k, n, i)) {
+                if (temp.size() > 0) {
+                    temp.remove(temp.size() - 1);
+                }
+
+                continue;
+            }*/
+            temp.add(i);
+            dfs77(k, n, i + 1, ans);
+            int sumArr = sumArr(temp);
+            if (sumArr >= n) {
+                if (temp.size() == k && sumArr == n) {
+                    ans.add(new ArrayList<>(temp));
+                }
+                temp.remove(temp.size() - 1);
+                break;
+            }
+
+            if (temp.size() > 0) {
+                temp.remove(temp.size() - 1);
+            }
+        }
+    }
+
+    private boolean isStop(int k, int n, int i) {
+        int sumArr = sumArr(temp);
+        int absNum = k - temp.size(), j = i;
+        while (absNum > 0 && j<= 9) {
+            sumArr += j;
+            if (sumArr > n) {
+                return true;
+            }
+            j++;
+            absNum--;
+        }
+        return false;
+    }
+
+    private int sumArr(List<Integer> temp) {
+        int sum = 0;
+        for (Integer integer : temp) {
+            sum += integer;
+        }
+        return sum;
     }
 }
