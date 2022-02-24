@@ -30,8 +30,8 @@ public class _216_组合总和_III {
 
     @Test
     public void T_() {
-        // List<List<Integer>> lists = combinationSum3(3, 9);
-        List<List<Integer>> lists = combinationSum3(3, 7);
+        List<List<Integer>> lists = combinationSum3GF(3, 9);
+        // List<List<Integer>> lists = combinationSum3GF(3, 7);
         System.out.println();
     }
 
@@ -67,5 +67,39 @@ public class _216_组合总和_III {
             k--;
         }
         return sum;
+    }
+
+    /*官方题解--二进制（子集）枚举*/
+    public List<List<Integer>> combinationSum3GF(int k, int n) {
+        if (n > 45 || k > 9) {
+            return ans;
+        }
+        for (int i = 0; i < (1 << 9); i++) {
+            if(i == 27){
+                System.out.println();
+            }
+            if(check(k,n,i)){
+                ans.add(new ArrayList<>(temp));
+            }
+        }
+        return ans;
+    }
+
+    private boolean check(int k, int n, int mask) {
+        temp.clear();
+        int sum = 0;
+        for (int j = 0; j <9; j++) {
+            if((mask &(1<<j)) != 0){
+                temp.add(j+1);
+                sum += j+1;
+                if(sum == n){
+                    return temp.size() == k && (mask>>(j + 1) == 0);
+                }
+                if(sum > n || temp.size() == k){
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 }
