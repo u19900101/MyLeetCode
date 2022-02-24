@@ -20,21 +20,24 @@ public class _10个数分两组 {
             arr[i] = sc.nextInt();
         }
         System.out.println(result(arr));*/
-        int[] arr = {1,2,3,4,5,6,7,8,9,10};
+        // int[] arr = {1,2,3,4,5,6,7,8,9,10};
+        int[] arr = {3,2,4,5,6,7};
         System.out.println(result(arr));
     }
 
+
     public static int result(int[] arr) {
+        Arrays.sort(arr);
         int a[] = new int[arr.length / 2], b[] = new int[arr.length / 2];
         for (int i = 0; i < arr.length / 2; i++) {
             a[i] = arr[i];
             b[i] = arr[i + arr.length / 2];
         }
-        System.out.println("交换处理后的数组a：" + Arrays.toString(a));
-        System.out.println("交换处理后的数组b：" + Arrays.toString(b));
+        // System.out.println("交换处理后的数组a：" + Arrays.toString(a));
+        // System.out.println("交换处理后的数组b：" + Arrays.toString(b));
         getMinusArray(a, b);
-        System.out.println("交换处理后的数组a：" + Arrays.toString(a));
-        System.out.println("交换处理后的数组b：" + Arrays.toString(b));
+        // System.out.println("交换处理后的数组a：" + Arrays.toString(a));
+        // System.out.println("交换处理后的数组b：" + Arrays.toString(b));
         return Math.abs(getSum(a) - getSum(b));
     }
 
@@ -56,6 +59,7 @@ public class _10个数分两组 {
                 b[j] = temp;
                 //交换后的差值
                 minus = Math.abs(getSum(a) - getSum(b));
+                // minus = Math.abs(suma +  b[j] - a[i] - (sumb-b[j] - a[i]));
                 if (minus < startMinus) {
                     startMinus = minus;
                 } else {
@@ -67,7 +71,7 @@ public class _10个数分两组 {
             }
         }
         // minus = Math.abs(getSum(a) - getSum(b));
-        System.out.println(startMinus);
+        // System.out.println(startMinus);
     }
 
     // 求数组和
