@@ -62,13 +62,14 @@ public class _39_组合总和 {
         }
 
         for (int i = curIndex; i < candidates.length; i++) {
-            path.add(candidates[i]);
-            dfs(candidates, target - candidates[i], i);
-            path.removeLast();
             /*剪枝操作*/
             if(target - candidates[i] < 0){
                 break;
             }
+            path.add(candidates[i]);
+            dfs(candidates, target - candidates[i], i);
+            path.removeLast();
+
         }
     }
 
