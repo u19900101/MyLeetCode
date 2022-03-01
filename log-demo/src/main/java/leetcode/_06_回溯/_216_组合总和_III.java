@@ -33,7 +33,8 @@ public class _216_组合总和_III {
     public void T_() {
         // List<List<Integer>> lists = combinationSum3GF(3, 9);
         // List<List<Integer>> lists = combinationSum3GF(3, 7);
-        List<List<Integer>> lists = combinationSum3USE77(4, 24);
+        // List<List<Integer>> lists = combinationSum3USE77(4, 24);
+        List<List<Integer>> lists = combinationSum3(4, 24);
         System.out.println();
     }
 
@@ -41,23 +42,29 @@ public class _216_组合总和_III {
         if (n > 45 || k > 9) {
             return ans;
         }
-        dfs2(k, n, 9, ans);
+        dfs2(k,k, n, 9, ans);
         return ans;
     }
     /*自己的题解  从大数开始 有一定的剪枝效果*/
-    private void dfs2(int k, int n, int curIndex, List<List<Integer>> ans) {
+    private void dfs2(int k,int k2, int n, int curIndex, List<List<Integer>> ans) {
 
-        if (k == 0 && n == 0) {
-            ans.add(new ArrayList<>(temp));
+        if (temp.size() == k) {
+            if(n == 0 ){
+                ans.add(new ArrayList<>(temp));
+            }
+
+            return;
+        }
+        /*剪枝*/
+        if (n < sumN(k2)) {
             return;
         }
 
-        if (n < sumN(k)) {
-            return;
-        }
+        
+
         for (int i = curIndex; i >= 1; i--) {
             temp.add(i);
-            dfs2(k - 1, n - i, i - 1, ans);
+            dfs2(k,k2 - 1, n - i, i - 1, ans);
             temp.remove(temp.size() - 1);
         }
     }
@@ -110,22 +117,27 @@ public class _216_组合总和_III {
         if (n > 45 || k > 9) {
             return ans;
         }
-        dfs77(k, n, 1, ans);
+        dfs77(k, n, 1, 0);
         return ans;
     }
 
-    private void dfs77(int k, int n, int curIndex, List<List<Integer>> ans) {
+    private void dfs77(int k, int n, int curIndex, int sum) {
+        if(sum > n){
+            return;
+        }
         if (temp.size() == k) {
-            if (sumArr(temp) == n) {
+            if (sum == n) {
                 ans.add(new ArrayList<>(temp));
             }
             return;
         }
 
-        for (int i = curIndex; i <= Math.min(9,n - (k - temp.size()) + 1); i++) {
+        for (int i = curIndex; i <= 9 - (k - temp.size()) + 1; i++) {
             temp.add(i);
-            dfs77(k, n, i + 1, ans);
+            sum += i;
+            dfs77(k, n, i + 1, sum);
             temp.remove(temp.size() - 1);
+            sum -= i;
         }
     }
 
