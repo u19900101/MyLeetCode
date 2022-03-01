@@ -29,7 +29,7 @@ public class _17_电话号码的字母组合 {
 
     @Test
     public void T_(){
-        List<String> strings = letterCombinations("");
+        List<String> strings = letterCombinations("23");
 
     }
     List<String> res = new ArrayList<>();
@@ -49,8 +49,7 @@ public class _17_电话号码的字母组合 {
             return;
         }
 
-        Integer index =  Character.getNumericValue(digits.charAt(curIndex));
-        for (char c : base[index-2].toCharArray()) {
+        for (char c : base[digits.charAt(curIndex)-'2'].toCharArray()) {
             sb.append(c);
             solution(digits,curIndex+1);
             sb.deleteCharAt(sb.length()-1);
