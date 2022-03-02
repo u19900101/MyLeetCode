@@ -29,8 +29,25 @@ public class _78_子集 {
     @Test
     public void T_() {
         int[] nums = {1, 2, 3};
-        List<List<Integer>> subsets = subsets(nums);
+        List<List<Integer>> subsets = subsets2(nums);
         System.out.println();
+    }
+
+    /*二进制全排*/
+    public List<List<Integer>> subsets2(int[] nums) {
+        int len = nums.length;
+        for (int i = 0; i < 1 << len; i++) {
+            ArrayList<Integer> list = new ArrayList<>();
+            int index = 0;
+            while ((1 << index) <= i) {
+                if (((1 << index) & i) != 0) {
+                    list.add(nums[index]);
+                }
+                index++;
+            }
+            res.add(new ArrayList<>(list));
+        }
+        return res;
     }
 
     public List<List<Integer>> subsets(int[] nums) {
@@ -43,15 +60,9 @@ public class _78_子集 {
             res.add(new ArrayList<>(path));
             return;
         }
-
         dfs(nums, beginIndex + 1);
-
-
         path.add(nums[beginIndex]);
         dfs(nums, beginIndex + 1);
         path.removeLast();
-
     }
-
-
 }
