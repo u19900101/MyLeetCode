@@ -3,6 +3,7 @@ package leetcode._06_回溯;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
 
@@ -32,12 +33,47 @@ import java.util.StringJoiner;
 public class _93_复原IP地址 {
 
 
-    List<String> path = new ArrayList<>();
+
 
     @Test
     public void T_() {
-        List<String> list = restoreIpAddresses("1231231231234");
+        List<String> list = restoreIpAddresses2("101023");
         System.out.println();
+    }
+    ArrayList<String> res = new ArrayList<>();
+    LinkedList<String> path = new LinkedList<>();
+    public List<String> restoreIpAddresses2(String s) {
+        if (s.length() == 0 || s.length() > 12) {
+            return res;
+        }
+        dfs(s);
+        return res;
+    }
+
+    private void dfs(String s) {
+        if(path.size() == 3){
+            if(check(s)){
+                StringBuilder sb = new StringBuilder();
+                for (String s1 : path) {
+                    sb.append(s1 + ".");
+                }
+                sb.append(s);
+                res.add(sb.toString());
+            }
+            return;
+        }
+        /*剪枝*/
+        int maxSpace = (4-path.size())*3;
+        if(s.length() >  maxSpace|| (s.length()==maxSpace && !check(s.substring(0,3)))){
+            return;
+        }
+        for (int i = 1; i <= 3 && i<=s.length()-1; i++) {
+            if(check(s.substring(0,i))){
+                path.add(s.substring(0,i));
+                dfs(s.substring(i));
+                path.removeLast();
+            }
+        }
     }
 
     public List<String> restoreIpAddresses(String s) {
@@ -48,7 +84,7 @@ public class _93_复原IP地址 {
 
         int len = s.length();
         // char[] ch = s.toCharArray();
-        for (int l = 1; l < len; l++) {
+        for (int l = 1; l <=3 ; l++) {
             for (int m = l + 1; m - l <= 3; m++) {
                 for (int r = len - 1; r >= len - 3 && r > m; r--) {
                     if (check(s.substring(0, l))
@@ -65,6 +101,9 @@ public class _93_复原IP地址 {
     }
 
     private boolean check(String s) {
+        if(s.length() > 3){
+            return false;
+        }
         if (s.startsWith("0")) {
             return s.length() == 1;
         }
