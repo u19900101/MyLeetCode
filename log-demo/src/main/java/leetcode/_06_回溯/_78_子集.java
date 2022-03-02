@@ -29,7 +29,7 @@ public class _78_子集 {
     @Test
     public void T_() {
         int[] nums = {1, 2, 3};
-        List<List<Integer>> subsets = subsets2(nums);
+        List<List<Integer>> subsets = subsets3(nums);
         System.out.println();
     }
 
@@ -49,6 +49,25 @@ public class _78_子集 {
         }
         return res;
     }
+
+    public List<List<Integer>> subsets3(int[] nums) {
+        dfs3(nums, 0);
+        return res;
+    }
+
+    /*第二种回溯*/
+    private void dfs3(int[] nums, int index) {
+        res.add(new ArrayList<>(path));
+        if(index == nums.length){
+            return;
+        }
+        for (int i = index; i < nums.length; i++) {
+            path.add(nums[i]);
+            dfs3(nums,i+1);
+            path.removeLast();
+        }
+    }
+
 
     public List<List<Integer>> subsets(int[] nums) {
         dfs(nums, 0);
